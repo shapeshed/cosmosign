@@ -17,11 +17,7 @@ const (
 )
 
 // signTransaction signs msg bytes with the provided signer data
-func (c *Cosmosign) signTransaction(
-	txBuilder client.TxBuilder,
-	signerData authsigning.SignerData,
-	sequence uint64,
-) error {
+func (c *Cosmosign) signTransaction(txBuilder client.TxBuilder, signerData authsigning.SignerData, sequence uint64) error {
 	sigV2 := signing.SignatureV2{
 		PubKey: signerData.PubKey,
 		Data: &signing.SingleSignatureData{
@@ -69,10 +65,7 @@ func (c *Cosmosign) signTransaction(
 }
 
 // SimulateTransaction simulates the transaction
-func (c *Cosmosign) simulateTransaction(
-	ctx context.Context,
-	txBytes []byte,
-) (*txtypes.SimulateResponse, error) {
+func (c *Cosmosign) simulateTransaction(ctx context.Context, txBytes []byte) (*txtypes.SimulateResponse, error) {
 	simRes, err := c.txSvcClient.Simulate(ctx, &txtypes.SimulateRequest{
 		TxBytes: txBytes,
 	})
@@ -98,9 +91,7 @@ func (c *Cosmosign) broadcastTransaction(
 }
 
 // SendMessages signs and broadcasts a transaction with one or more messages
-func (c *Cosmosign) SendMessages(
-	msgs ...sdktypes.Msg,
-) (*txtypes.BroadcastTxResponse, error) {
+func (c *Cosmosign) SendMessages(msgs ...sdktypes.Msg) (*txtypes.BroadcastTxResponse, error) {
 	// Initialize the txBuilder
 	txBuilder := c.encodingConfig.TxConfig.NewTxBuilder()
 
@@ -208,9 +199,7 @@ func (c *Cosmosign) SendMessages(
 }
 
 // SendMessagesWaitTx broadcasts a message and waits for it to be confirmed, returning the result.
-func (c *Cosmosign) SendMessagesWaitTx(
-	msgs ...sdktypes.Msg,
-) (*txtypes.GetTxResponse, error) {
+func (c *Cosmosign) SendMessagesWaitTx(msgs ...sdktypes.Msg) (*txtypes.GetTxResponse, error) {
 	// Call SendMessages to broadcast the transaction
 	broadcastRes, err := c.SendMessages(msgs...)
 	if err != nil {
