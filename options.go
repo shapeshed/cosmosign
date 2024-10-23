@@ -7,7 +7,7 @@ import (
 // Option is a function that configures the Cosmosign client.
 type Option func(*Cosmosign)
 
-// WithAddressPrefix sets the comsos addressPrefix for the client
+// WithAddressPrefix sets the addressPrefix for the client.
 func WithAddressPrefix(addressPrefix string) Option {
 	return func(c *Cosmosign) {
 		c.addressPrefix = addressPrefix
@@ -18,7 +18,7 @@ func WithAddressPrefix(addressPrefix string) Option {
 	}
 }
 
-// WithGasToken sets the gas token used for fees
+// WithFees sets the fees for the client.
 func WithFees(fees string) Option {
 	return func(c *Cosmosign) {
 		parsedFees, err := sdktypes.ParseCoinsNormalized(fees)
@@ -29,28 +29,28 @@ func WithFees(fees string) Option {
 	}
 }
 
-// WithFeeGranter returns a copy of the Factory with an updated fee granter.
+// WithFeeGranter sets the fee granter for the client.
 func WithFeeGranter(feeGranter sdktypes.AccAddress) Option {
 	return func(c *Cosmosign) {
 		c.feeGranter = feeGranter
 	}
 }
 
-// WithFeeGranter returns a copy of the Factory with an updated fee granter.
+// WithFeePayer sets the fee payer for the client.
 func WithFeePayer(feePayer sdktypes.AccAddress) Option {
 	return func(c *Cosmosign) {
 		c.feePayer = feePayer
 	}
 }
 
-// WithGasToken sets the gas token used for fees
+// WithGas sets the gas limit for the client.
 func WithGas(gas uint64) Option {
 	return func(c *Cosmosign) {
 		c.gas = gas
 	}
 }
 
-// WithGasToken sets the gas token used for fees
+// WithGasPrices sets the gas prices used for the client.
 func WithGasPrices(gasPrices string) Option {
 	return func(c *Cosmosign) {
 		parsedGasPrices, err := sdktypes.ParseDecCoins(gasPrices)
@@ -61,7 +61,7 @@ func WithGasPrices(gasPrices string) Option {
 	}
 }
 
-// WithGasToken sets the gas token used for fees
+// WithGasPrices sets the multipler for gas simulation amount.
 func WithGasMultipler(gasMultiplier float64) Option {
 	return func(c *Cosmosign) {
 		c.gasMultiplier = new(float64)
@@ -69,56 +69,56 @@ func WithGasMultipler(gasMultiplier float64) Option {
 	}
 }
 
-// WithGRPCAddr sets the gRPC address for the client
+// WithGRPCAddr sets the gRPC address for the client.
 func WithGRPCURL(addr string) Option {
 	return func(c *Cosmosign) {
 		c.grpcURL = addr
 	}
 }
 
-// WithGRPCTLS sets the gRPC address for the client
+// WithGRPCTLS sets the gRPC address for the client.
 func WithGRPCTLS(grpcTLS bool) Option {
 	return func(c *Cosmosign) {
 		c.grpcTLS = grpcTLS
 	}
 }
 
-// WithRPCAddr sets the RPC address for the client
+// WithRPCAddr sets the RPC address for the client.
 func WithRPCURL(addr string) Option {
 	return func(c *Cosmosign) {
 		c.rpcURL = addr
 	}
 }
 
-// WithRPCWebsocketPath sets the RPC websocket path for the client
+// WithRPCWebsocketPath sets the RPC websocket path for the client.
 func WithRPCWebsocketPath(path string) Option {
 	return func(c *Cosmosign) {
 		c.rpcWebsocketPath = path
 	}
 }
 
-// WithKeyringUID sets the keyring uid (account) to use in signing
+// WithKeyringUID sets the keyring uid (account) to use in signing.
 func WithKeyringUID(keyringUID string) Option {
 	return func(c *Cosmosign) {
 		c.keyringUID = keyringUID
 	}
 }
 
-// WithKeyringBackend sets the backend to use for the keyring
+// WithKeyringBackend sets the backend to use for the keyring.
 func WithKeyringBackend(keyringBackend string) Option {
 	return func(c *Cosmosign) {
 		c.keyringBackend = keyringBackend
 	}
 }
 
-// WithKeyringBackend sets the backend to use for the keyring
+// WithKeyringBackend sets the backend to use for the keyring.
 func WithKeyringRootDir(keyringRootDir string) Option {
 	return func(c *Cosmosign) {
 		c.keyringRootDir = keyringRootDir
 	}
 }
 
-// WithMemo sets the memo to use on the transaction
+// WithMemo sets the memo to use on the transaction.
 func WithMemo(memo string) Option {
 	return func(c *Cosmosign) {
 		c.memo = memo
