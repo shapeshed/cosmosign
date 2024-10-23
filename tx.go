@@ -16,8 +16,8 @@ const (
 	queryInterval = 1 * time.Second
 )
 
-// SignTransaction signs the transaction with the provided private key
-func (c *Cosmosign) SignTransaction(
+// signTransaction signs msg bytes with the provided signer data
+func (c *Cosmosign) signTransaction(
 	txBuilder client.TxBuilder,
 	signerData authsigning.SignerData,
 	sequence uint64,
@@ -83,7 +83,7 @@ func (c *Cosmosign) SimulateTransaction(
 }
 
 // BroadcastTransaction broadcasts the transaction to the network
-func (c *Cosmosign) BroadcastTransaction(
+func (c *Cosmosign) broadcastTransaction(
 	ctx context.Context,
 	txBytes []byte,
 ) (*txtypes.BroadcastTxResponse, error) {
@@ -104,14 +104,17 @@ func (c *Cosmosign) SendMessages(
 	// Initialize the txBuilder
 	txBuilder := c.encodingConfig.TxConfig.NewTxBuilder()
 
+	// Set memo if set
 	if c.memo != "" {
 		txBuilder.SetMemo(c.memo)
 	}
 
+	// Set feepayer if set
 	if c.feePayer != nil {
 		txBuilder.SetFeePayer(c.feePayer)
 	}
 
+	// Set feegranter if set
 	if c.feeGranter != nil {
 		txBuilder.SetFeeGranter(c.feeGranter)
 	}
@@ -155,23 +158,25 @@ func (c *Cosmosign) SendMessages(
 		Address:       signerAddr.String(),
 	}
 
-	// Sign the transaction ahead of simulation
-	err = c.SignTransaction(txBuilder, signerData, sequence)
+	// Sign the transaction ahead of running the tx simulation
+	err = c.signTransaction(txBuilder, signerData, sequence)
 	if err != nil {
 		return nil, err
 	}
 
+	// Get the encoded tx bytes
 	simtxBytes, err := c.encodingConfig.TxConfig.TxEncoder()(txBuilder.GetTx())
 	if err != nil {
 		return nil, err
 	}
 
+	// Run the simulation
 	simulationRes, err := c.SimulateTransaction(c.ctx, simtxBytes)
 	if err != nil {
 		return nil, err
 	}
 
-	// Call the calcGasAndFee function
+	// Calculate gas and fees using the simulation results
 	adjustedGas, fees := calcGasAndFees(simulationRes, c.gasPrices, *c.gasMultiplier)
 	if err != nil {
 		return nil, err
@@ -182,7 +187,7 @@ func (c *Cosmosign) SendMessages(
 	txBuilder.SetFeeAmount(fees)
 
 	// Sign again after updating Gas and Fee
-	err = c.SignTransaction(txBuilder, signerData, sequence)
+	err = c.signTransaction(txBuilder, signerData, sequence)
 	if err != nil {
 		return nil, err
 	}
@@ -194,7 +199,7 @@ func (c *Cosmosign) SendMessages(
 	}
 
 	// Broadcast the transaction
-	res, err := c.BroadcastTransaction(c.ctx, txBytes)
+	res, err := c.broadcastTransaction(c.ctx, txBytes)
 	if err != nil {
 		return nil, err
 	}
@@ -217,7 +222,7 @@ func (c *Cosmosign) SendMessagesWaitTx(
 
 	timeout := 180 * time.Second
 	// Wait for the transaction to be confirmed
-	confirmedRes, err := c.WaitForTx(c.ctx, txHash, timeout)
+	confirmedRes, err := c.waitForTx(c.ctx, txHash, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -225,7 +230,8 @@ func (c *Cosmosign) SendMessagesWaitTx(
 	return confirmedRes, nil
 }
 
-func (c *Cosmosign) WaitForTx(ctx context.Context, hash string, timeout time.Duration) (*txtypes.GetTxResponse, error) {
+// waitForTx polls for a confirmed transaction, returning it when found
+func (c *Cosmosign) waitForTx(ctx context.Context, hash string, timeout time.Duration) (*txtypes.GetTxResponse, error) {
 	txSvcClient := txtypes.NewServiceClient(c.grpcConn)
 
 	// Create a new context with a timeout

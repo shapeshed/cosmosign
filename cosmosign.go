@@ -88,17 +88,18 @@ func NewClient(opts ...Option) (*Cosmosign, error) {
 	}
 
 	if client.grpcConn == nil {
-		if client.grpcConn, err = SetupGRPCConnection(client.grpcURL, client.grpcTLS); err != nil {
+		if client.grpcConn, err = setupGRPCConnection(client.grpcURL, client.grpcTLS); err != nil {
 			return nil, err
 		}
 	}
 
+	// Set the chainID by querying the node and using the `NodeInfo.Network` value
 	statusResp, err := client.rpcClient.Status(ctx)
 	if err != nil {
 		return nil, err
 	}
-
 	client.chainID = statusResp.NodeInfo.Network
+
 	client.accountQueryClient = authtypes.NewQueryClient(client.grpcConn)
 	client.txSvcClient = txtypes.NewServiceClient(client.grpcConn)
 	client.encodingConfig = testutil.MakeTestEncodingConfig()

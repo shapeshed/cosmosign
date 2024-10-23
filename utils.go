@@ -17,6 +17,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 )
 
+// calcGasAndFees computes fees and gas limit from a simulation response
 func calcGasAndFees(
 	simRes *txtypes.SimulateResponse, // Simulation response
 	gasPrices sdktypes.DecCoins, // Gas price from the feemarket module
@@ -43,7 +44,6 @@ func calcGasAndFees(
 }
 
 // getAccountNumberAndSequence fetches the account information and returns the account number and sequence
-
 func (c *Cosmosign) getAccountNumberAndSequence(address sdktypes.AccAddress) (uint64, uint64, error) {
 	accountRes, err := c.accountQueryClient.Account(c.ctx, &authtypes.QueryAccountRequest{Address: address.String()})
 	if err != nil {
@@ -62,7 +62,7 @@ func (c *Cosmosign) getAccountNumberAndSequence(address sdktypes.AccAddress) (ui
 }
 
 // SetupGRPCConnection establishes a GRPC connection, optionally using system's TLS certificates
-func SetupGRPCConnection(address string, useTLS bool) (*grpc.ClientConn, error) {
+func setupGRPCConnection(address string, useTLS bool) (*grpc.ClientConn, error) {
 	var opts []grpc.DialOption
 
 	if useTLS {
