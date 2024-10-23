@@ -69,7 +69,7 @@ func (c *Cosmosign) signTransaction(
 }
 
 // SimulateTransaction simulates the transaction
-func (c *Cosmosign) SimulateTransaction(
+func (c *Cosmosign) simulateTransaction(
 	ctx context.Context,
 	txBytes []byte,
 ) (*txtypes.SimulateResponse, error) {
@@ -171,7 +171,7 @@ func (c *Cosmosign) SendMessages(
 	}
 
 	// Run the simulation
-	simulationRes, err := c.SimulateTransaction(c.ctx, simtxBytes)
+	simulationRes, err := c.simulateTransaction(c.ctx, simtxBytes)
 	if err != nil {
 		return nil, err
 	}
