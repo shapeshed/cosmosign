@@ -28,8 +28,6 @@ import (
 
 func main() {
 	cs, err := cosmosign.NewClient(
-		cosmosign.WithGRPCURL("http://localhost:19190"),
-		cosmosign.WithRPCURL("http://localhost:26657"),
 		cosmosign.WithGasPrices("0.0ustake"),
 		cosmosign.WithKeyringBackend("pass"),
 		cosmosign.WithKeyringRootDir("/home/cosmos/"),
@@ -67,23 +65,18 @@ You may pass an arbitrary number of options when creating the `cosmosign`
 client. Each option has a default value, but you may override them using the
 available `With` methods.
 
-| Option             | Description                         | Default Value              | Method to Override             |
-| ------------------ | ----------------------------------- | -------------------------- | ------------------------------ |
-| `AddressPrefix`    | Bech32 prefix for account addresses | `"cosmos"`                 | `WithAddressPrefix(string)`    |
-| `Fees`             | Transaction fees                    | `""`                       | `WithFees(string)`             |
-| `FeeGranter`       | Address of the fee granter          | `""`                       | `WithFeeGranter(string)`       |
-| `FeePayer`         | Address of the fee payer            | `""`                       | `WithFeePayer(string)`         |
-| `Gas`              | Gas limit                           | `""`                       | `WithGas(uint64)`              |
-| `GasPrices`        | Gas prices to pay per unit of gas   | `"0.0ustake"`              | `WithGasPrices(string)`        |
-| `GasMultiplier`    | Multipler for gas estimation        | `"1.0"`                    | `WithGasMultiplier(float64)`   |
-| `GRPCURL`          | gRPC endpoint for Cosmos nodes      | `"localhost:1919"`         | `WithGRPCURL(string)`          |
-| `GRPCTLS`          | Enable TLS for gRPC connections     | `false`                    | `WithGRPCTLS(bool)`            |
-| `RPCURL`           | RPC endpoint for Cosmos node        | `"http://localhost:26657"` | `WithRPCURL(string)`           |
-| `RPCWebsocketPath` | WebSocket path for RPC connection   | `"/websocket"`             | `WithRPCWebsocketPath(string)` |
-| `KeyringUID`       | Identifier for keyring account      | `""`                       | `WithKeyringUID(string)`       |
-| `KeyringBackend`   | Backend used for keyring            | `""`                       | `WithKeyringBackend(string)`   |
-| `KeyringRootDir`   | Root directory path for the keyring | `""`                       | `WithKeyringRootDir(string)`   |
-| `Memo`             | Transaction memo                    | `""`                       | `WithMemo(string)`             |
+| Option           | Description                         | Default Value | Method to Override           |
+| ---------------- | ----------------------------------- | ------------- | ---------------------------- |
+| `Fees`           | Transaction fees                    | `""`          | `WithFees(string)`           |
+| `FeeGranter`     | Address of the fee granter          | `""`          | `WithFeeGranter(string)`     |
+| `FeePayer`       | Address of the fee payer            | `""`          | `WithFeePayer(string)`       |
+| `Gas`            | Gas limit                           | `""`          | `WithGas(uint64)`            |
+| `GasPrices`      | Gas prices to pay per unit of gas   | `"0.0ustake"` | `WithGasPrices(string)`      |
+| `GasMultiplier`  | Multipler for gas estimation        | `"1.0"`       | `WithGasMultiplier(float64)` |
+| `KeyringUID`     | Identifier for keyring account      | `""`          | `WithKeyringUID(string)`     |
+| `KeyringBackend` | Backend used for keyring            | `""`          | `WithKeyringBackend(string)` |
+| `KeyringRootDir` | Root directory path for the keyring | `""`          | `WithKeyringRootDir(string)` |
+| `Memo`           | Transaction memo                    | `""`          | `WithMemo(string)`           |
 
 ## Updating an existing client
 
