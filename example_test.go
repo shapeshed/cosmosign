@@ -1,16 +1,16 @@
 package cosmosign_test
 
 import (
+	"context"
 	"log"
 
 	"github.com/shapeshed/cosmosign"
 )
 
 func ExampleNewClient() {
+	ctx := context.Background()
 	// Initialize cosmosign client (this requires network connectivity)
-	cs, err := cosmosign.NewClient(
-		cosmosign.WithGRPCURL("http://localhost:19190"),
-		cosmosign.WithRPCURL("http://localhost:26657"),
+	cs, err := cosmosign.NewClient(ctx,
 		cosmosign.WithGasPrices("0.0ustake"),
 		cosmosign.WithKeyringBackend("pass"),
 		cosmosign.WithKeyringRootDir("/home/cosmos/"),
@@ -28,9 +28,8 @@ func ExampleNewClient() {
 }
 
 func ExampleCosmosign_ApplyOptions() {
-	cs, err := cosmosign.NewClient(
-		cosmosign.WithGRPCURL("http://localhost:19190"),
-		cosmosign.WithRPCURL("http://localhost:26657"),
+	ctx := context.Background()
+	cs, err := cosmosign.NewClient(ctx,
 		cosmosign.WithGasPrices("0.0ustake"),
 		cosmosign.WithKeyringBackend("pass"),
 		cosmosign.WithKeyringRootDir("/home/cosmos/"),
@@ -42,7 +41,6 @@ func ExampleCosmosign_ApplyOptions() {
 
 	err = cs.ApplyOptions(
 		cosmosign.WithGasPrices("0.01ustake"),
-		cosmosign.WithRPCURL("http://localhost:26659"),
 	)
 	if err != nil {
 		log.Fatalf("Failed to apply options: %v", err)

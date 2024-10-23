@@ -2,6 +2,7 @@ package cosmosign
 
 import (
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
+	"google.golang.org/grpc"
 )
 
 // Option is a function that configures the Cosmosign client.
@@ -69,31 +70,10 @@ func WithGasMultipler(gasMultiplier float64) Option {
 	}
 }
 
-// WithGRPCAddr sets the gRPC address for the client.
-func WithGRPCURL(addr string) Option {
+// WithGasPrices sets the multipler for gas simulation amount.
+func WithGRPCConn(grpcConn *grpc.ClientConn) Option {
 	return func(c *Cosmosign) {
-		c.grpcURL = addr
-	}
-}
-
-// WithGRPCTLS sets the gRPC address for the client.
-func WithGRPCTLS(grpcTLS bool) Option {
-	return func(c *Cosmosign) {
-		c.grpcTLS = grpcTLS
-	}
-}
-
-// WithRPCAddr sets the RPC address for the client.
-func WithRPCURL(addr string) Option {
-	return func(c *Cosmosign) {
-		c.rpcURL = addr
-	}
-}
-
-// WithRPCWebsocketPath sets the RPC websocket path for the client.
-func WithRPCWebsocketPath(path string) Option {
-	return func(c *Cosmosign) {
-		c.rpcWebsocketPath = path
+		c.grpcConn = grpcConn
 	}
 }
 
