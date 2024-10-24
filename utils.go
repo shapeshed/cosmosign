@@ -1,14 +1,7 @@
 package cosmosign
 
 import (
-	"crypto/tls"
-	"crypto/x509"
-	"fmt"
 	"math/big"
-
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/credentials/insecure"
 
 	"cosmossdk.io/math"
 

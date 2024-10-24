@@ -1,8 +1,9 @@
 package cosmosign
 
 import (
-	sdktypes "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc"
+
+	sdktypes "github.com/cosmos/cosmos-sdk/types"
 )
 
 // Option is a function that configures the Cosmosign client.
