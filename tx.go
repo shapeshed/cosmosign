@@ -149,35 +149,43 @@ func (c *Cosmosign) SendMessages(msgs ...sdktypes.Msg) (*txtypes.BroadcastTxResp
 		Address:       signerAddr.String(),
 	}
 
-	// Sign the transaction ahead of running the tx simulation
-	err = c.signTransaction(txBuilder, signerData, sequence)
-	if err != nil {
-		return nil, err
+	// nolint
+	if c.fees != nil && c.gas != 0 {
+		// Set the gas limit and fee in the transaction builder directly
+		txBuilder.SetGasLimit(c.gas)
+		txBuilder.SetFeeAmount(c.fees)
+	} else {
+		// Run the simulation to get gas and fees
+		// Sign the transaction ahead of running the tx simulation
+		err = c.signTransaction(txBuilder, signerData, sequence)
+		if err != nil {
+			return nil, err
+		}
+
+		// Get the encoded tx bytes
+		simtxBytes, err := c.encodingConfig.TxConfig.TxEncoder()(txBuilder.GetTx())
+		if err != nil {
+			return nil, err
+		}
+
+		// Run the simulation
+		simulationRes, err := c.simulateTransaction(c.ctx, simtxBytes)
+		if err != nil {
+			return nil, err
+		}
+
+		// Calculate gas and fees using the simulation results
+		adjustedGas, fees := calcGasAndFees(simulationRes, c.gasPrices, *c.gasMultiplier)
+		if err != nil {
+			return nil, err
+		}
+
+		// Set the gas limit and fee in the transaction builder
+		txBuilder.SetGasLimit(adjustedGas)
+		txBuilder.SetFeeAmount(fees)
 	}
 
-	// Get the encoded tx bytes
-	simtxBytes, err := c.encodingConfig.TxConfig.TxEncoder()(txBuilder.GetTx())
-	if err != nil {
-		return nil, err
-	}
-
-	// Run the simulation
-	simulationRes, err := c.simulateTransaction(c.ctx, simtxBytes)
-	if err != nil {
-		return nil, err
-	}
-
-	// Calculate gas and fees using the simulation results
-	adjustedGas, fees := calcGasAndFees(simulationRes, c.gasPrices, *c.gasMultiplier)
-	if err != nil {
-		return nil, err
-	}
-
-	// Set the gas limit and fee in the transaction builder
-	txBuilder.SetGasLimit(adjustedGas)
-	txBuilder.SetFeeAmount(fees)
-
-	// Sign again after updating Gas and Fee
+	// Sign the transaction
 	err = c.signTransaction(txBuilder, signerData, sequence)
 	if err != nil {
 		return nil, err
