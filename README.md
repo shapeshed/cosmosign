@@ -23,10 +23,20 @@ import (
 	"github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	cosmosign "github.com/shapeshed/cosmosign"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+
 )
 
 func main() {
+	conn, err := grpc.NewClient("localhost:1919", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("Failed to initialise grpc connection: %v", err)
+		return
+	}
+
 	cs, err := cosmosign.NewClient(
+	  cosmosign.WithGRPCConn(conn),
 		cosmosign.WithGasPrices("0.0ustake"),
 		cosmosign.WithKeyringBackend("pass"),
 		cosmosign.WithKeyringRootDir("/home/cosmos/"),
