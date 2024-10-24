@@ -54,6 +54,7 @@ and this project adheres to
 
 - Initial release
 
+[v0.1.1]: https://github.com/shapeshed/cosmosign/compare/v0.1.0..v0.1.1
 [v0.1.0]: https://github.com/shapeshed/cosmosign/compare/v0.0.5..v0.1.0
 [v0.0.5]: https://github.com/shapeshed/cosmosign/compare/v0.0.4..v0.0.5
 [v0.0.4]: https://github.com/shapeshed/cosmosign/compare/v0.0.3..v0.0.4
