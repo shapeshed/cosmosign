@@ -47,14 +47,14 @@ and this project adheres to
 
 - Make `SimulateTransaction` private
 
-## [v0.0.2] - 2014-10-22
+## [v0.0.2] - 2014-10-23
 
 ### Changed
 
 - Improve documentation
 - Make internal methods private
 
-## [v0.0.1] - 2014-10-22
+## [v0.0.1] - 2014-10-23
 
 ### Added
 
