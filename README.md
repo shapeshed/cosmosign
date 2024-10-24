@@ -1,8 +1,7 @@
 # Cosmosign
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/shapeshed/cosmosign.svg)](https://pkg.go.dev/github.com/shapeshed/cosmosign)
-[![golangci-lint](https://github.com/shapeshed/cosmosign/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/shapeshed/cosmosign/actions/workflows/golangci-lint.yml)
-[![test](https://github.com/shapeshed/cosmosign/actions/workflows/go.yml/badge.svg)](https://github.com/shapeshed/cosmosign/actions/workflows/go.yml)
+[![Build](https://github.com/shapeshed/cosmosign/actions/workflows/build.yml/badge.svg)](https://github.com/shapeshed/cosmosign/actions/workflows/build.yml)
 
 **Cosmosign** is a lightweight Go library for signing and broadcasting
 transactions to Cosmos blockchains.

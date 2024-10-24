@@ -1,0 +1,35 @@
+on: 
+  push
+
+name: Build
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    # Setup Go environment
+    - uses: actions/setup-go@v4
+      with:
+        go-version: 1.23.x
+    
+    # Cache Go modules
+    - name: Cache Go modules
+      id: cache-go-mod
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/go-build
+          ~/go/pkg/mod
+        key: go-mod-1.23.x-${{ runner.os }}-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          go-mod-1.23.x-${{ runner.os }}-
+
+    # Run make to build the project
+    - name: Build project with make
+      run: make
+    
+    # Run tests for the project
+    - name: Run tests
+      run: make test
