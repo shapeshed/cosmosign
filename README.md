@@ -36,7 +36,7 @@ func main() {
 	}
 
 	cs, err := cosmosign.NewClient(
-	  cosmosign.WithGRPCConn(conn),
+		cosmosign.WithGRPCConn(conn),
 		cosmosign.WithGasPrices("0.0ustake"),
 		cosmosign.WithKeyringBackend("pass"),
 		cosmosign.WithKeyringRootDir("/home/cosmos/"),
