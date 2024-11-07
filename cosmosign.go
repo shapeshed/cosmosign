@@ -113,9 +113,6 @@ func (c *Cosmosign) setaddressPrefix() error {
 
 	c.addressPrefix = prefix.Bech32Prefix
 
-	sdkconfig := sdktypes.GetConfig()
-	sdkconfig.SetBech32PrefixForAccount(c.addressPrefix, c.addressPrefix+"pub")
-
 	return nil
 }
 

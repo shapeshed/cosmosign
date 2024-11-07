@@ -37,8 +37,8 @@ func calcGasAndFees(
 }
 
 // getAccountNumberAndSequence fetches the account information and returns the account number and sequence
-func (c *Cosmosign) getAccountNumberAndSequence(address sdktypes.AccAddress) (uint64, uint64, error) {
-	accountRes, err := c.accountQueryClient.Account(c.ctx, &authtypes.QueryAccountRequest{Address: address.String()})
+func (c *Cosmosign) getAccountNumberAndSequence(address string) (uint64, uint64, error) {
+	accountRes, err := c.accountQueryClient.Account(c.ctx, &authtypes.QueryAccountRequest{Address: address})
 	if err != nil {
 		return 0, 0, err
 	}

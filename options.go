@@ -9,17 +9,6 @@ import (
 // Option is a function that configures the Cosmosign client.
 type Option func(*Cosmosign)
 
-// WithAddressPrefix sets the addressPrefix for the client.
-func WithAddressPrefix(addressPrefix string) Option {
-	return func(c *Cosmosign) {
-		c.addressPrefix = addressPrefix
-		c.mu.Lock()
-		defer c.mu.Unlock()
-		config := sdktypes.GetConfig()
-		config.SetBech32PrefixForAccount(c.addressPrefix, c.addressPrefix+"pub")
-	}
-}
-
 // WithFees sets the fees for the client.
 func WithFees(fees string) Option {
 	return func(c *Cosmosign) {

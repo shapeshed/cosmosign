@@ -134,8 +134,14 @@ func (c *Cosmosign) SendMessages(msgs ...sdktypes.Msg) (*txtypes.BroadcastTxResp
 		return nil, err
 	}
 
+	// Get the signer address as a string with the correct prefix
+	signerAddress, err := sdktypes.Bech32ifyAddressBytes(c.addressPrefix, signerAddr)
+	if err != nil {
+		return nil, err
+	}
+
 	// Fetch the account number and sequence for the signer
-	accountNumber, sequence, err := c.getAccountNumberAndSequence(signerAddr)
+	accountNumber, sequence, err := c.getAccountNumberAndSequence(signerAddress)
 	if err != nil {
 		return nil, err
 	}
@@ -146,7 +152,7 @@ func (c *Cosmosign) SendMessages(msgs ...sdktypes.Msg) (*txtypes.BroadcastTxResp
 		AccountNumber: accountNumber,
 		Sequence:      sequence,
 		PubKey:        pubKey,
-		Address:       signerAddr.String(),
+		Address:       signerAddress,
 	}
 
 	// nolint
