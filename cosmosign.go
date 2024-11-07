@@ -37,6 +37,7 @@ type Cosmosign struct {
 	gas                uint64
 	grpcConn           *grpc.ClientConn
 	keyringBackend     string
+	keyringAppName     string
 	keyring            keyring.Keyring
 	keyringRootDir     string
 	keyringUID         string
@@ -79,7 +80,7 @@ func NewClient(ctx context.Context, opts ...Option) (*Cosmosign, error) {
 	}
 
 	if client.keyring == nil {
-		if client.keyring, err = keyring.New(client.addressPrefix, client.keyringBackend, client.keyringRootDir, nil, client.encodingConfig.Codec); err != nil {
+		if client.keyring, err = keyring.New(client.keyringAppName, client.keyringBackend, client.keyringRootDir, nil, client.encodingConfig.Codec); err != nil {
 			return nil, err
 		}
 	}

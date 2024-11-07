@@ -79,6 +79,13 @@ func WithGRPCConn(grpcConn *grpc.ClientConn) Option {
 }
 
 // WithKeyringUID sets the keyring uid (account) to use in signing.
+func WithKeyringAppName(keyringAppName string) Option {
+	return func(c *Cosmosign) {
+		c.keyringAppName = keyringAppName
+	}
+}
+
+// WithKeyringUID sets the keyring uid (account) to use in signing.
 func WithKeyringUID(keyringUID string) Option {
 	return func(c *Cosmosign) {
 		c.keyringUID = keyringUID
