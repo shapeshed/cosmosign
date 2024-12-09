@@ -5,7 +5,7 @@ go 1.23
 require (
 	cosmossdk.io/math v1.4.0
 	github.com/cosmos/cosmos-sdk v0.50.10
-	google.golang.org/grpc v1.68.0
+	google.golang.org/grpc v1.68.1
 )
 
 require (
