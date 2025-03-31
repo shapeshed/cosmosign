@@ -11,7 +11,7 @@ GOBIN    := $(shell $(GO) env GOPATH)/bin
 all: lint build
 
 .PHONY: build
-build: | $(BIN)
+build: 
 	@echo "Building $(TARGET)..."
 	@$(GO) build -v -mod=readonly -tags release \
 		-ldflags "-X main.Version=$(VERSION) -X main.BuildDate=$(DATE)" \
