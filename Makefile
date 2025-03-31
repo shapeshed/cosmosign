@@ -8,14 +8,7 @@ GO       := go
 GOBIN    := $(shell $(GO) env GOPATH)/bin
 
 .PHONY: all
-all: lint build
-
-.PHONY: build
-build: 
-	@echo "Building $(TARGET)..."
-	@$(GO) build -v -mod=readonly -tags release \
-		-ldflags "-X main.Version=$(VERSION) -X main.BuildDate=$(DATE)" \
-		-o $(BIN)/$(TARGET) $(SRC)
+all: lint test
 
 .PHONY: lint
 lint:
@@ -55,7 +48,7 @@ version:
 .PHONY: help
 help: 
 	@echo "Available commands:"
-	@echo "  all            Build all client binaries"
+	@echo "  all            Run all tasks"
 	@echo "  lint           Run golangci-lint"
 	@echo "  fix            Auto-fix linting issues with golangci-lint --fix"
 	@echo "  generate-mocks Generate mocks using mockery"
