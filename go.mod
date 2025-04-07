@@ -7,7 +7,7 @@ toolchain go1.24.1
 require (
 	cosmossdk.io/math v1.5.1
 	github.com/cosmos/cosmos-sdk v0.50.13
-	google.golang.org/grpc v1.71.0
+	google.golang.org/grpc v1.71.1
 )
 
 require (
